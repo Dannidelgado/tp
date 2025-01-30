@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1738246822 source:c:\users\usuario\escritorio\um\1º curso 2024-2025\practicas_tp\s02\main.c
+	<stdio.h>
+	<math.h>
+
+1738246800 source:c:\users\usuario\escritorio\um\1º curso 2024-2025\practicas_tp\s02\montecarlo.c
+	<stdio.h>
+	<math.h>
+	<stdlib.h>
+
