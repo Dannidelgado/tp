@@ -178,12 +178,18 @@ int main (int argc, char *argv[]) {
 
     struct EnemigoRep enemigo[10];
     for (int i = 0; i < 10; i++) {
-        enemigo[i].xE = rand() % (800 - personaje.w);
-        enemigo[i].yE = rand() % (480 - personaje.h);
-        enemigo[i].velocidadEx = (rand() % 2) ? 3 : -3;
-        enemigo[i].velocidadEy = (rand() % 2) ? 3 : -3;
         enemigo[i].wE = 40;
         enemigo[i].hE = 40;
+        enemigo[i].xE = rand() % (800 - enemigo[i].wE);
+        enemigo[i].yE = rand() % (480 - enemigo[i].hE);
+        enemigo[i].velocidadEx = (rand() % 2) ? 3 : -3;
+        enemigo[i].velocidadEy = (rand() % 2) ? 3 : -3;
+        /*
+        if (enemigo[i].xE == personaje.x || enemigo[i].yE == personaje.y) {
+            enemigo[i].xE = rand() % (800 - enemigo[i].wE);
+            enemigo[i].yE = rand() % (480 - enemigo[i].hE);
+        }
+        */
     }
     Imagen balas[3];
     balas[0] = lee_imagen("alonso\\blandas.bmp",1);
@@ -268,6 +274,7 @@ int main (int argc, char *argv[]) {
             personaje.x = rand() % (800 - personaje.w);
             personaje.y = rand() % (480 - personaje.h);
         }
+
 
         char mensajeVida[20];
         sprintf(mensajeVida,"Vidas: %d\n", vidas );
