@@ -191,19 +191,15 @@ int main (int argc, char *argv[]) {
     int frecBala = 0;
 
     for (int i = 0; i < 10; i++) {
+        /* Inicializamos los valores del array enemigo */
         enemigo[i].wE = 40;
         enemigo[i].hE = 40;
         enemigo[i].xE = rand() % (800 - enemigo[i].wE);
         enemigo[i].yE = rand() % (480 - enemigo[i].hE);
         enemigo[i].velocidadEx = (rand() % 2) ? 3 : -3;
         enemigo[i].velocidadEy = (rand() % 2) ? 3 : -3;
-        /*
-        if (enemigo[i].xE == personaje.x || enemigo[i].yE == personaje.y) {
-            enemigo[i].xE = rand() % (800 - enemigo[i].wE);
-            enemigo[i].yE = rand() % (480 - enemigo[i].hE);
-        }
-        */
     }
+
     Imagen balas[3];
     balas[0] = lee_imagen("alonso\\blandas.bmp",1);
     balas[1] = lee_imagen("alonso\\medias.bmp",1);
@@ -262,15 +258,25 @@ int main (int argc, char *argv[]) {
 
         if (contador % 50 == 0 && n < 10) {
                 n += 1;
+                if (enemigo[n].xE == personaje.x && enemigo[n].yE == personaje.y) {
+                    enemigo[n].xE = rand() % (800 - enemigo[n].wE);
+                    enemigo[n].yE = rand() % (480 - enemigo[n].hE);
+                    /* Este condicional nos asegura que si la posición del nuevo enemigo
+                    que se crea es igual a la del personaje, genere otra. Para evitar que
+                    mate al personaje justo al salir */
+                }
             }
-
+        mueve_enemigos(enemigo, n );
 
         if (solape_rectangulos(personaje.x, personaje.y, personaje.w,personaje.h, xt,yt, 40,40)) {
             xt = rand() % 760;
             yt = rand() % 440;
             personaje.velocidad += 1;
             punto += 1;
+            /* Si Alonso coge el tesoro este cambia de posición y Alonso aumenta la velocidad y
+             los puntos */
         }
+
         if (personaje.x > (800 - personaje.w)) {
             personaje.x = (800 - personaje.w);
         }
@@ -283,10 +289,6 @@ int main (int argc, char *argv[]) {
         if (personaje.y < 0) {
             personaje.y = 0;
         }
-
-
-
-        mueve_enemigos(enemigo, n );
 
         if (colision_enemigos_objeto(enemigo, n, personaje.x, personaje.y, personaje.w, personaje.h)) {
             vidas -= 1;
@@ -301,25 +303,10 @@ int main (int argc, char *argv[]) {
         char mensajePunto[20];
         sprintf(mensajePunto,"Puntos: %d\n", punto );
 
-
-        if (vidas == 0) {
-            terminar = 1;
-        }
-
-
-
-
         dibuja_imagen(pista,0,0,800,480);
 
-        dibuja_texto(mensajeVida,15,10);
-        dibuja_texto(mensajePunto,15,30);
-
         if (b != NULL) {
-            //dibuja_bala(b);
             dibuja_lista_balas(c);
-            //get_x_bala(b);
-            //get_y_bala(b);
-            //mueve_bala(b);
             mueve_lista_balas(c);
 
             /*
@@ -331,11 +318,8 @@ int main (int argc, char *argv[]) {
             */
         }
 
-
-
-
-
-
+        dibuja_texto(mensajeVida,15,10);
+        dibuja_texto(mensajePunto,15,30);
         dibuja_imagen(Alo,personaje.x,personaje.y,personaje.w,personaje.h);
         dibuja_imagen(Tt,xt,yt, 40, 40);
         dibuja_enemigos(enemigo,n, Fia);
@@ -345,6 +329,10 @@ int main (int argc, char *argv[]) {
 
         if (frecBala > 0) {
             frecBala -= 1;
+        }
+
+        if (vidas == 0) {
+            terminar = 1;
         }
 
     }
@@ -375,7 +363,6 @@ int main (int argc, char *argv[]) {
     libera_imagen(pista);
     libera_pantalla();
     libera_bala(b);
-    return 0;
 
 return 0;
 
