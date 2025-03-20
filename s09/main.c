@@ -220,10 +220,12 @@ int main (int argc, char *argv[]) {
         /* Inicializamos los valores del array enemigo */
         enemigo[i].wE = 40;
         enemigo[i].hE = 40;
-        enemigo[i].xE = rand() % (800 - enemigo[i].wE);
-        enemigo[i].yE = rand() % (480 - enemigo[i].hE);
         enemigo[i].velocidadEx = (rand() % 2) ? 3 : -3;
         enemigo[i].velocidadEy = (rand() % 2) ? 3 : -3;
+        if (n < 3) {
+            enemigo[i].xE = rand() % (800 - enemigo[i].wE);
+            enemigo[i].yE = rand() % (480 - enemigo[i].hE);
+        }
     }
 
     Imagen balas[3];
@@ -284,13 +286,8 @@ int main (int argc, char *argv[]) {
 
         if (contador % 50 == 0 && n < 10) {
                 n += 1;
-                if (enemigo[n].xE == personaje.x && enemigo[n].yE == personaje.y) {
-                    enemigo[n].xE = rand() % (800 - enemigo[n].wE);
-                    enemigo[n].yE = rand() % (480 - enemigo[n].hE);
-                    /* Este condicional nos asegura que si la posición del nuevo enemigo
-                    que se crea es igual a la del personaje, genere otra. Para evitar que
-                    mate al personaje justo al salir */
-                }
+                enemigo[n-1].xE = rand() % (800 - enemigo[n-1].wE);
+                enemigo[n-1].yE = rand() % (480 - enemigo[n-1].hE);
             }
         mueve_enemigos(enemigo, n );
 
@@ -358,6 +355,7 @@ int main (int argc, char *argv[]) {
 
         if (vidas == 0 || punto == 33) {
             terminar = 1;
+            /*Termina si Alonso pierde todas las vidas o consigue las 33 victorias*/
         }
 
     }
